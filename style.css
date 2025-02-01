@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+  padding: 0;
+}
+
+.student-list-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f2f2f2;
+  border-radius: 25px;
+  padding: 10px 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 8px;
+  width: 100%;
+  max-width: 400px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  color: #888;
+  white-space: nowrap;
+}
+
+
+.student-list-button i {
+  padding: 5px;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.student-list-button:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.student-list-button:hover i {
+  color: #333;
+}
+
+.container {
+  background-color: #f2f2f2;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input-group input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  flex: 1;
+  margin-right: 5px;
+}
+
+.input-group button {
+  padding: 10px 15px;
+  background-color: #f2f2f2;
+  color: #888;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 40px;
+  white-space: nowrap;
+}
+
+.input-group button:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.statistic-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #f2f2f2;
+  color: #888;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  gap: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 8px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.statistic-button:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.searchbar input[type="text"],
+.input-group input[type="text"],
+.input-group button,
+.statistic-button,
+.student-list-button {
+  font-weight: normal;
+}

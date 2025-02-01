@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+  padding: 0;
+}
+
+/* Стили для основного контейнера */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Центрируем содержимое по горизонтали */
+  width: 100%;
+  max-width: 800px; /* Ограничиваем максимальную ширину */
+  margin-top: -50px; /* Поднимаем весь блок выше */
+}
+
+/* Стили для searchbar */
+.searchbar {
+  display: flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 25px;
+  padding: 5px 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* Увеличиваем отступ снизу */
+  width: 100%; /* Обеспечиваем, что searchbar будет заполнять контейнер */
+  max-width: 400px; /* Ограничиваем максимальную ширину */
+}
+
+.searchbar input[type="text"] {
+  border: none;
+  background: transparent;
+  padding: 10px;
+  font-size: 16px;
+  outline: none;
+  flex: 1;
+}
+
+.searchbar-icon {
+  padding: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #888;
+  transition: color 0.3s ease;
+  margin-left: auto; /* Кнопка поиска остается справа */
+}
+
+.searchbar-icon:hover {
+  color: #333;
+}
+
+/* Стили для таблицы */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+input {
+  width: 80px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.last-work {
+  font-size: 16px; /* Размер шрифта для процента */
+  font-weight: bold; /* Жирный шрифт для процента */
+}
+
+.date {
+  font-size: 12px; /* Меньший размер шрифта для даты */
+  color: #666; /* Серый цвет для даты */
+  margin-top: 4px; /* Отступ сверху */
+}

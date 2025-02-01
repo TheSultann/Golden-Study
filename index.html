@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="main">
+     
+        <button class="student-list-button" onclick="location.href='students/students.html'">
+            Students
+            <i class="fas fa-arrow-right"></i>
+        </button>
+
+
+        <div class="container">
+            <div class="input-group">
+                <input type="text" placeholder="Имя ученика" id="userName">
+                <button id="addUserBtn">Добавить</button>
+            </div>
+        </div>
+
+        <div class="statistic-container">
+            <a href="./users/index.html" class="statistic-button">📊 Статистика учеников</a>
+            <div id="statisticsTable">
+               
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>
