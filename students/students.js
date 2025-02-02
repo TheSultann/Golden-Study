@@ -97,7 +97,7 @@ async function calculateAverage(button) {
     const currentDate = new Date().toISOString();
 
     try {
-        // Обновляем данные на сервере
+        // Отправляем данные на сервер
         const response = await axios.put(`http://localhost:8080/users/${userId}`, {
             percentage: average,
             date: currentDate
