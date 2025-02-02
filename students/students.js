@@ -2,15 +2,12 @@
 // Функция для добавления ученика
 async function addStudent(name) {
     try {
-        // Отправляем данные на сервер с помощью axios
         const response = await axios.post('http://localhost:8080/users', { userName: name });
 
-        // Проверяем статус ответа
-        if (response.status !== 201) { // Изменено с 200 на 201, так как POST-запрос на создание ресурса должен возвращать 201
+        if (response.status !== 201) {
             throw new Error('Ошибка при добавлении ученика');
         }
 
-        // Обновляем таблицу после успешного добавления
         await updateTable();
     } catch (error) {
         console.error('Ошибка:', error);
@@ -45,10 +42,10 @@ async function updateTable() {
 }
 
 // Функция для добавления строки в таблицу
-function addStudentToTable(name, id, percentage = 0, date = null) { // Добавлены параметры id, percentage и date
+function addStudentToTable(name, id, percentage = 0, date = null) {
     const table = document.getElementById('studentsTable').getElementsByTagName('tbody')[0];
     const newRow = table.insertRow();
-    newRow.dataset.userId = id;  // Добавляем id в data атрибут строки
+    newRow.dataset.userId = id;
 
     // Ячейка с именем ученика
     const nameCell = newRow.insertCell(0);
@@ -56,14 +53,14 @@ function addStudentToTable(name, id, percentage = 0, date = null) { // Доба�
 
     // Ячейка для последней работы
     const lastWorkCell = newRow.insertCell(1);
-    if (percentage) {
+    if (percentage > 0) { // Показываем дату только если есть процент успеваемости
         const formattedDate = date ? new Date(date).toLocaleDateString() : '';
         lastWorkCell.innerHTML = `
             <div class="last-work">${percentage.toFixed(2)}%</div>
             <div class="date">${formattedDate}</div>
         `;
     } else {
-        lastWorkCell.textContent = '-';
+        lastWorkCell.textContent = '-'; // Если оценок нет, просто ставим прочерк
     }
 
     // Ячейки для ввода процентов
@@ -100,11 +97,14 @@ async function calculateAverage(button) {
     const currentDate = new Date().toISOString();
 
     try {
+        // Обновляем данные на сервере
         const response = await axios.put(`http://localhost:8080/users/${userId}`, {
             percentage: average,
             date: currentDate
         });
+
         if (response.status === 200) {
+            // Обновляем ячейку "Последняя работа"
             const formattedDate = new Date(currentDate).toLocaleDateString();
             lastWorkCell.innerHTML = `
                 <div class="last-work">${average.toFixed(2)}%</div>

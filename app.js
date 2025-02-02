@@ -62,22 +62,24 @@ const express = require('express');
         try {
             const users = await User.find({});
             const statistics = {};
-
+    
             users.forEach(user => {
                 if (!statistics[user.userName]) {
-                    statistics[user.userName] = { total: 0, count: 0 };
+                    statistics[user.userName] = { total: 0, count: 0, dates: [] };
                 }
                 statistics[user.userName].total += user.percentage;
                 statistics[user.userName].count += 1;
+                statistics[user.userName].dates.push(user.date);
             });
-
+    
             const weeklyAverages = Object.keys(statistics).map(userName => {
                 return {
                     userName: userName,
-                    average: (statistics[userName].total / statistics[userName].count).toFixed(2)
+                    average: (statistics[userName].total / statistics[userName].count).toFixed(2),
+                    dates: statistics[userName].dates
                 };
             });
-
+    
             res.status(200).json(weeklyAverages);
         } catch (err) {
             console.error('Error fetching statistics', err);

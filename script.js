@@ -15,7 +15,7 @@
 
             if (response.status === 201) {
                console.log('User created', response.data);
-               alert('User successfully created!');
+            //    alert('User successfully created!');
                document.getElementById('userName').value = '';
                
            } else {
