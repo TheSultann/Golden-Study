@@ -1,5 +1,6 @@
 // students.js
-// Функция для добавления ученика
+
+// students.js (измененная функция addStudent)
 async function addStudent(name) {
     try {
         const response = await axios.post('http://localhost:8080/users', { userName: name });
@@ -9,6 +10,8 @@ async function addStudent(name) {
         }
 
         await updateTable();
+        // ****** ДОБАВЛЯЕМ ЭТУ СТРОКУ: ******
+        await loadStatistics();  // Обновляем статистику после добавления ученика
     } catch (error) {
         console.error('Ошибка:', error);
     }
@@ -63,7 +66,7 @@ function addStudentToTable(name, id, percentage = 0, date = null) {
         lastWorkCell.textContent = '-'; // Если оценок нет, просто ставим прочерк
     }
 
-    // Ячейки для ввода процентов
+    // Остальные ячейки и кнопка "Отправить"
     const vocabCell = newRow.insertCell(2);
     vocabCell.innerHTML = '<input type="number" min="0" max="100" placeholder="%">';
 
@@ -73,12 +76,11 @@ function addStudentToTable(name, id, percentage = 0, date = null) {
     const otherCell = newRow.insertCell(4);
     otherCell.innerHTML = '<input type="number" min="0" max="100" placeholder="%">';
 
-    // Кнопка "Отправить"
     const submitCell = newRow.insertCell(5);
     submitCell.innerHTML = '<button onclick="calculateAverage(this)">Отправить</button>';
 }
 
-// Функция для расчета среднего процента
+// students.js (измененная функция calculateAverage)
 async function calculateAverage(button) {
     const row = button.parentElement.parentElement;
     const inputs = row.getElementsByTagName('input');
@@ -110,6 +112,9 @@ async function calculateAverage(button) {
                 <div class="last-work">${average.toFixed(2)}%</div>
                 <div class="date">${formattedDate}</div>
             `;
+
+            // ****** ДОБАВЛЯЕМ ЭТУ СТРОКУ: ******
+            await loadStatistics(); // Обновляем статистику после успешного обновления данных
         } else {
             console.error("Ошибка при обновлении данных");
         }
@@ -117,6 +122,22 @@ async function calculateAverage(button) {
         console.error("Ошибка:", error);
     }
 }
+async function loadStatistics() {
+    try {
+        const response = await axios.get('http://localhost:8080/api/statistics');
+        const { average } = response.data;
+
+        // Отображаем средний процент на странице "Статистика"
+        document.getElementById('statisticsAverage').textContent = `${average}%`;
+    } catch (error) {
+        console.error('Ошибка при загрузке статистики:', error);
+    }
+}
+
+// Вызов функции при загрузке страницы
+document.addEventListener('DOMContentLoaded', loadStatistics);
+
+
 
 // Загружаем таблицу при загрузке страницы
 document.addEventListener('DOMContentLoaded', updateTable);

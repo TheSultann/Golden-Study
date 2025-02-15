@@ -20,16 +20,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Функция для загрузки учеников с сервера
+    // Функция для загрузки учеников с сервера
     async function fetchStudents() {
         try {
-            const response = await axios.get('http://localhost:8080/api/users'); 
+            const response = await axios.get('http://localhost:8080/api/users');
             const students = response.data;
             tableBody.innerHTML = '';
             rowCounter = 1;
 
-            students.forEach(student => {
-                addStudent(student.userName, student.percentage, student.date);
-            });
+            for (const student of students) { // Изменяем forEach на for...of для асинхронности
+                // Запрашиваем средний процент для каждого ученика через новый API
+                const averageResponse = await axios.get(`http://localhost:8080/api/users/${student._id}/average`);
+                const averagePercentage = averageResponse.data.averagePercentage;
+
+                addStudent(student.userName, averagePercentage, student.date); // Используем средний процент
+            };
 
         } catch (error) {
             console.error('Ошибка загрузки данных об учениках:', error);
@@ -41,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await axios.post('http://localhost:8080/users', {
                 userName: userName,
-                percentage: 0, 
+                percentage: 0,
                 date: new Date()
             });
 

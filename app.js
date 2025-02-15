@@ -27,29 +27,23 @@ app.post('/users', async (req, res) => {
 });
 
 // Обновление данных ученика (проценты и дата)
+// Обновление данных ученика (проценты и дата)
 app.put('/users/:id', async (req, res) => {
     const { percentage, date } = req.body;
     const { id } = req.params;
 
     try {
-       const user = await User.findById(id);
-       if (!user) {
-           return res.status(404).json({ message: "User not found" });
-       }
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
-        // Обновляем историю, добавляем текущий результат в начало массива
-        user.history.unshift({ percentage, date });
+        // Добавляем новую запись в историю
+        user.history.push({ percentage: percentage, date: date });
 
-        // Ограничиваем длину истории до 3 последних результатов
-        user.history = user.history.slice(0, 3);
-        
-        // Обновляем общий процент на основе последних трех работ
-        let averagePercentage = user.history.reduce((sum, item) => sum + item.percentage, 0) / user.history.length;
-
-
-        // Сохраняем обновленного пользователя
-        user.percentage = averagePercentage;
-        user.date = date; // сохраняем дату последнего обновления
+        // Обновляем percentage и date для отображения последней работы на главной странице
+        user.percentage = percentage; // Сохраняем последний процент для главной страницы
+        user.date = date;           // Сохраняем дату последней работы для главной страницы
         await user.save();
 
         res.status(200).json(user);
@@ -73,28 +67,49 @@ app.get('/api/users', async (req, res) => {
 
 // Получение статистики за неделю (исправлено)
 app.get('/api/statistics', async (req, res) => {
-   try {
-       const users = await User.find({});
-       const weeklyAverages = users.map(user => {
-           // Вычисляем средний процент только на основе последних 3 работ
-           const lastThree = user.history.slice(0, 3);
-           const average = lastThree.length > 0 ? lastThree.reduce((sum, item) => sum + item.percentage, 0) / lastThree.length : 0;
+    try {
+        const users = await User.find({});
 
+        // Собираем последние проценты всех учеников
+        const lastPercentages = users.map(user => user.percentage || 0); // Берем последний процент каждого ученика
 
-           return {
-               userName: user.userName,
-               average: average.toFixed(2),
-               lastWorkDate: user.date
-           };
-       });
+        // Считаем средний процент из всех последних работ
+        const total = lastPercentages.reduce((sum, percentage) => sum + percentage, 0);
+        const average = lastPercentages.length > 0 ? (total / lastPercentages.length).toFixed(2) : 0;
 
-       res.status(200).json(weeklyAverages);
-   } catch (err) {
-       console.error('Error fetching statistics', err);
-       res.status(500).json({ message: err.message });
-   }
+        // Возвращаем средний процент
+        res.status(200).json({ average });
+    } catch (err) {
+        console.error('Error fetching statistics', err);
+        res.status(500).json({ message: err.message });
+    }
 });
 
+// Получение среднего процента из истории работ ученика
+app.get('/api/users/:userId/average', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const history = user.history;
+        if (history.length === 0) {
+            return res.status(200).json({ averagePercentage: 0 }); // Если истории нет, средний 0
+        }
+
+        // Рассчитываем средний процент из истории
+        const totalPercentage = history.reduce((sum, record) => sum + record.percentage, 0);
+        const averagePercentage = totalPercentage / history.length;
+
+        res.status(200).json({ averagePercentage: averagePercentage.toFixed(2) }); // Возвращаем средний процент, округленный до 2 знаков
+    } catch (err) {
+        console.error('Error fetching average percentage', err);
+        res.status(500).json({ message: err.message });
+    }
+});
 
 const PORT = 8080;
 app.listen(PORT, () => {
