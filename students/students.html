@@ -3,46 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./students.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="/students/students.css">
+    <title>Students</title>
+    <style>
+        /* Скрываем пустую колонку Send для роли guest */
+        tbody td:last-child:empty {
+            display: none;
+        }
+        thead th:last-child {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="main">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
         <div class="searchbar">
-            <input type="text" name="search" placeholder="Search...">
+            <input type="text" id="searchInput" name="search" placeholder="Search...">
             <span class="searchbar-icon"><i class="fas fa-search"></i></span>
         </div>
 
         <table id="studentsTable">
             <thead>
                 <tr>
-                    <th>Имя ученика</th>
-                    <th>Последняя работа (%)</th>
-                    <th>Словарь (%)</th>
-                    <th>Тема (%)</th>
-                    <th>Другое (%)</th>
-                    <th>Отправить</th>
+                    <th>Student's Name</th>
+                    <th>Last Assignment(%)</th>
+                    <th>Dictionary (%)</th>
+                    <th>Topic (%)</th>
+                    <th>Other (%)</th>
+                    <th class="send-column">Send</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Пример строки -->
-                <tr>
-                    <td>qw</td>
-                    <td>
-                        <div class="last-work">-</div>
-                        <div class="date">-</div>
-                    </td>
-                    <td><input type="number" min="0" max="100" placeholder="%"></td>
-                    <td><input type="number" min="0" max="100" placeholder="%"></td>
-                    <td><input type="number" min="0" max="100" placeholder="%"></td>
-                    <td><button onclick="calculateAverage(this)">Отправить</button></td>
-                </tr>
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./students.js"></script>
+    <script src="/students/students.js"></script>
 </body>
 </html>

@@ -2,10 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.static(__dirname));
 
 const User = require('./user');
 
@@ -13,8 +15,32 @@ mongoose.connect('mongodb://localhost:27017/Students', { useNewUrlParser: true, 
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.log('Error connecting to MongoDB', err));
 
+// Middleware для проверки роли
+app.use((req, res, next) => {
+    const role = req.headers['x-role'] || 'guest';
+    req.userRole = role;
+    next();
+});
+
+// Маршруты для учителя и ученика
+app.get('/teacher', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/student', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/students', (req, res) => {
+    res.sendFile(path.join(__dirname, 'students', 'students.html'));
+});
+
 // Добавление нового ученика
 app.post('/users', async (req, res) => {
+    if (req.userRole !== 'admin') {
+        return res.status(403).json({ message: "Access denied" });
+    }
+
     const { userName } = req.body;
     try {
         const newUser = new User({ userName });
@@ -26,10 +52,13 @@ app.post('/users', async (req, res) => {
     }
 });
 
-// Обновление данных ученика (проценты и дата)
-// Обновление данных ученика (проценты и дата)
+// Обновление данных ученика
 app.put('/users/:id', async (req, res) => {
-    const { percentage, date } = req.body;
+    if (req.userRole !== 'admin') {
+        return res.status(403).json({ message: "Access denied" });
+    }
+
+    const { percentage, date, dictionary, topic, other } = req.body;
     const { id } = req.params;
 
     try {
@@ -38,12 +67,12 @@ app.put('/users/:id', async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Добавляем новую запись в историю
-        user.history.push({ percentage: percentage, date: date });
-
-        // Обновляем percentage и date для отображения последней работы на главной странице
-        user.percentage = percentage; // Сохраняем последний процент для главной страницы
-        user.date = date;           // Сохраняем дату последней работы для главной страницы
+        user.history.push({ percentage, date });
+        user.percentage = percentage;
+        user.date = date;
+        user.dictionary = dictionary;
+        user.topic = topic;
+        user.other = other;
         await user.save();
 
         res.status(200).json(user);
@@ -52,7 +81,6 @@ app.put('/users/:id', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-
 
 // Получение всех учеников
 app.get('/api/users', async (req, res) => {
@@ -65,19 +93,13 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
-// Получение статистики за неделю (исправлено)
+// Получение статистики за неделю
 app.get('/api/statistics', async (req, res) => {
     try {
         const users = await User.find({});
-
-        // Собираем последние проценты всех учеников
-        const lastPercentages = users.map(user => user.percentage || 0); // Берем последний процент каждого ученика
-
-        // Считаем средний процент из всех последних работ
+        const lastPercentages = users.map(user => user.percentage || 0);
         const total = lastPercentages.reduce((sum, percentage) => sum + percentage, 0);
         const average = lastPercentages.length > 0 ? (total / lastPercentages.length).toFixed(2) : 0;
-
-        // Возвращаем средний процент
         res.status(200).json({ average });
     } catch (err) {
         console.error('Error fetching statistics', err);
@@ -85,8 +107,31 @@ app.get('/api/statistics', async (req, res) => {
     }
 });
 
-// Получение среднего процента из истории работ ученика
+// Получение среднего процента из истории
 app.get('/api/users/:userId/average', async (req, res) => {
+    const { userId } = req.params;
+    const N = 3;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const history = user.history || [];
+        const lastNWorks = history.slice(-N);
+        const totalPercentage = lastNWorks.reduce((sum, record) => sum + record.percentage, 0);
+        const averagePercentage = lastNWorks.length > 0 ? totalPercentage / lastNWorks.length : 0;
+
+        res.status(200).json({ averagePercentage: averagePercentage.toFixed(2) });
+    } catch (err) {
+        console.error('Error fetching average percentage', err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Получение количества работ ученика
+app.get('/api/users/:userId/workCount', async (req, res) => {
     const { userId } = req.params;
 
     try {
@@ -95,18 +140,10 @@ app.get('/api/users/:userId/average', async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        const history = user.history;
-        if (history.length === 0) {
-            return res.status(200).json({ averagePercentage: 0 }); // Если истории нет, средний 0
-        }
-
-        // Рассчитываем средний процент из истории
-        const totalPercentage = history.reduce((sum, record) => sum + record.percentage, 0);
-        const averagePercentage = totalPercentage / history.length;
-
-        res.status(200).json({ averagePercentage: averagePercentage.toFixed(2) }); // Возвращаем средний процент, округленный до 2 знаков
+        const workCount = user.history ? user.history.length : 0;
+        res.status(200).json({ workCount });
     } catch (err) {
-        console.error('Error fetching average percentage', err);
+        console.error('Error fetching work count', err);
         res.status(500).json({ message: err.message });
     }
 });

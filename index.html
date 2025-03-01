@@ -1,42 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <title>Главная страница</title>
 </head>
-
 <body>
     <div class="main">
-     
-        <button class="student-list-button" onclick="location.href='students/students.html'">
+        <button class="student-list-button" onclick="location.href='/students'">
             Students
             <i class="fas fa-arrow-right"></i>
         </button>
 
-
-        <div class="container">
+        <div class="container" id="adminControls" style="display: none;">
             <div class="input-group">
-                <input type="text" placeholder="Имя ученика" id="userName">
-                <button id="addUserBtn">Добавить</button>
+                <input type="text" placeholder="Student's Name" id="userName">
+                <button id="addUserBtn">Add Student</button>
             </div>
         </div>
 
         <div class="statistic-container">
-            <a href="./users/index.html" class="statistic-button">📊 Статистика учеников</a>
-            <div id="statisticsTable">
-               
-            </div>
+            <a href="/users/index.html" class="statistic-button">📊 Student Statistics</a>
+            <div id="statisticsTable"></div>
         </div>
-
-
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./script.js"></script>
-</body>
+    <script>
+        const role = window.location.pathname.includes('/teacher') ? 'admin' : 'guest';
+        localStorage.setItem('userRole', role); // Сохраняем роль в localStorage
 
+        if (role === 'admin') {
+            document.getElementById('adminControls').style.display = 'block';
+        }
+
+        document.getElementById('addUserBtn').addEventListener('click', () => {
+            const userName = document.getElementById('userName').value;
+            if (userName) {
+                addStudent(userName);
+            }
+        });
+
+        async function addStudent(name) {
+            try {
+                const response = await axios.post('/users', { userName: name }, {
+                    headers: { 'X-Role': role }
+                });
+
+                if (response.status === 201) {
+                    alert('Ученик успешно добавлен');
+                    document.getElementById('userName').value = '';
+                } else {
+                    throw new Error('Ошибка при добавлении ученика');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert('Не удалось добавить ученика');
+            }
+        }
+    </script>
+</body>
 </html>
