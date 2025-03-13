@@ -57,7 +57,7 @@
     "mime": "^1.6.0",
     "mime-db": "^1.52.0",
     "mime-types": "^2.1.35",
-    "mongodb": "^6.12.0",
+    "mongodb": "^6.14.2",
     "mongodb-connection-string-url": "^3.0.2",
     "mongoose": "^8.9.5",
     "mpath": "^0.9.0",

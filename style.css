@@ -7,10 +7,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
   background-color: #f4f4f4;
-  padding: 0;
+  padding: 20px;
 }
 
 .student-list-button {
@@ -21,7 +21,7 @@ body {
   border-radius: 25px;
   padding: 10px 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 8px;
+  margin-bottom: 15px;
   width: 100%;
   max-width: 400px;
   border: none;
@@ -31,7 +31,6 @@ body {
   color: #888;
   white-space: nowrap;
 }
-
 
 .student-list-button i {
   padding: 5px;
@@ -69,6 +68,7 @@ body {
   border-radius: 25px;
   flex: 1;
   margin-right: 5px;
+  font-size: 16px;
 }
 
 .input-group button {
@@ -93,6 +93,7 @@ body {
 .statistic-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   padding: 10px 20px;
   font-size: 16px;
   text-align: center;
@@ -105,7 +106,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
   gap: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 8px;
+  margin-top: 15px;
   width: 100%;
   max-width: 400px;
 }
@@ -121,4 +122,94 @@ body {
 .statistic-button,
 .student-list-button {
   font-weight: normal;
+}
+
+/* Медиа-запросы для мобильных устройств */
+@media (max-width: 480px) {
+  body {
+    padding: 15px;
+  }
+  
+  .container {
+    padding: 12px;
+    width: 100%;
+  }
+  
+  .input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .input-group input[type="text"] {
+    margin-right: 0;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .input-group button {
+    width: 100%;
+    height: auto;
+    padding: 12px;
+  }
+  
+  .student-list-button,
+  .statistic-button {
+    padding: 12px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .student-list-button i {
+    font-size: 18px;
+  }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 320px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    padding: 10px;
+  }
+  
+  .student-list-button,
+  .statistic-button,
+  .input-group button {
+    font-size: 13px;
+    padding: 10px;
+  }
+  
+  .input-group input[type="text"] {
+    font-size: 13px;
+    padding: 8px;
+  }
+}
+
+/* Исправление для устройств с высотой экрана */
+@media (max-height: 600px) {
+  body {
+    height: auto;
+    min-height: 100vh;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+/* Поддержка touch-устройств */
+@media (hover: none) {
+  .student-list-button:hover,
+  .input-group button:hover,
+  .statistic-button:hover {
+    background-color: #f2f2f2;
+    color: #888;
+  }
+  
+  .student-list-button:active,
+  .input-group button:active,
+  .statistic-button:active {
+    background-color: #e0e0e0;
+    color: #333;
+  }
 }
