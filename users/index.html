@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Таблица учеников</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
 <body>
     <div class="container">
-        
+        <div class="back-button">
+            <span id="backIcon" class="back-icon"><i class="fas fa-arrow-left"></i></span>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -19,16 +22,17 @@
                 </tr>
             </thead>
             <tbody>
-               
             </tbody>
         </table>
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./tables.js"></script>
-   
-
-    
+    <script>
+        // Добавляем функциональность иконке "Назад"
+        document.getElementById('backIcon').addEventListener('click', function() {
+            window.history.back();
+        });
+    </script>
 </body>
 </html>

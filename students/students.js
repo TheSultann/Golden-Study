@@ -132,3 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateTable();
 });
+document.getElementById('backIcon').addEventListener('click', function() {
+    window.history.back();
+});

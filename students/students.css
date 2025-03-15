@@ -1,105 +1,215 @@
 * {
   box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   margin: 0;
-  background-color: #f4f4f4;
   padding: 0;
 }
 
-/* Стили для основного контейнера */
-.main {
+body {
+  font-family: Arial, sans-serif;
   display: flex;
-  flex-direction: column;
-  align-items: center; /* Центрируем содержимое по горизонтали */
-  width: 100%;
-  max-width: 800px; /* Ограничиваем максимальную ширину */
-  margin-top: -50px; /* Поднимаем весь блок выше */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+  padding: 20px;
 }
 
-/* Стили для searchbar */
+.container {
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Search bar styling */
 .searchbar {
   display: flex;
   align-items: center;
-  background-color: #f2f2f2;
+  background-color: white;
   border-radius: 25px;
-  padding: 5px 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px; /* Увеличиваем отступ снизу */
-  width: 100%; /* Обеспечиваем, что searchbar будет заполнять контейнер */
-  max-width: 400px; /* Ограничиваем максимальную ширину */
+  padding: 10px 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .searchbar input[type="text"] {
   border: none;
   background: transparent;
-  padding: 10px;
+  padding: 8px;
   font-size: 16px;
   outline: none;
   flex: 1;
 }
 
+/* Стили для иконки поиска */
 .searchbar-icon {
   padding: 5px;
   cursor: pointer;
-  font-size: 20px;
   color: #888;
+  font-size: 16px;
   transition: color 0.3s ease;
-  margin-left: auto; /* Кнопка поиска остается справа */
 }
 
 .searchbar-icon:hover {
-  color: #333;
+  color: #555;
 }
 
-/* Стили для таблицы */
+/* Стили для иконки "Назад" */
+.back-icon {
+  padding: 5px;
+  cursor: pointer;
+  color: #888;
+  font-size: 16px;
+  margin-right: 5px;
+  transition: color 0.3s ease;
+}
+
+.back-icon:hover {
+  color: #555;
+}
+
+/* Table styling */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px 15px;
   text-align: left;
+  border: 1px solid #ddd;
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #f8f8f8;
+  font-weight: 600;
 }
 
-input {
-  width: 80px;
+/* Input fields styling */
+input[type="text"] {
+  width: 100%;
   padding: 5px;
-  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 3px;
 }
 
+/* Button styling for Send button */
 button {
-  padding: 5px 10px;
-  background-color: #4CAF50;
-  color: white;
+  background-color: #30f70f;
   border: none;
+  padding: 5px 10px;
   cursor: pointer;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #28d10a;
 }
 
+/* Grade styling */
 .last-work {
-  font-size: 16px; /* Размер шрифта для процента */
-  font-weight: bold; /* Жирный шрифт для процента */
+  font-weight: bold;
 }
 
 .date {
-  font-size: 12px; /* Меньший размер шрифта для даты */
-  color: #666; /* Серый цвет для даты */
-  margin-top: 4px; /* Отступ сверху */
+  font-size: 12px;
+  color: #888;
+  margin-top: 3px;
+}
+
+/* Responsive design */
+@media (max-width: 700px) {
+  /* Уменьшаем размеры элементов в .searchbar, но оставляем горизонтальное расположение */
+  .searchbar {
+    padding: 8px 10px; /* Уменьшаем внутренние отступы */
+    max-width: 100%; /* Убираем ограничение по ширине */
+  }
+
+  .searchbar input[type="text"] {
+    padding: 5px; /* Уменьшаем отступы внутри поля ввода */
+    font-size: 14px; /* Уменьшаем размер шрифта */
+  }
+
+  .back-icon,
+  .searchbar-icon {
+    font-size: 14px; /* Уменьшаем размер иконок */
+    padding: 3px; /* Уменьшаем отступы вокруг иконок */
+  }
+
+  .back-icon {
+    margin-right: 3px; /* Уменьшаем отступ от поля ввoda */
+  }
+
+  /* Таблица остаётся как есть */
+  table {
+    display: block;
+    width: 100%;
+  }
+  
+  thead {
+    display: none;
+  }
+  
+  tbody {
+    display: block;
+    width: 100%;
+  }
+  
+  tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: white;
+  }
+  
+  td {
+    display: block;
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 12px;
+    text-align: left;
+  }
+  
+  td:last-child {
+    border-bottom: none;
+  }
+  
+  td:nth-of-type(3)::before {
+    content: "Dictionary (%): ";
+    font-weight: bold;
+  }
+  
+  td:nth-of-type(4)::before {
+    content: "Topic (%): ";
+    font-weight: bold;
+  }
+  
+  td:nth-of-type(5)::before {
+    content: "Other (%): ";
+    font-weight: bold;
+  }
+  
+  tr + tr {
+    margin-top: 10px;
+  }
+  
+  input[type="text"] {
+    width: 70%;
+    display: inline-block;
+    margin-left: 5px;
+  }
+  
+  td:last-child {
+    text-align: center;
+  }
 }
