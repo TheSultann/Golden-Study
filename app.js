@@ -11,9 +11,21 @@ app.use(express.static(__dirname));
 
 const User = require('./user');
 
-mongoose.connect('mongodb://localhost:27017/Students', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch((err) => console.log('Error connecting to MongoDB', err));
+const DB_URL = 'mongodb+srv://Golden_Study:SULTAn2721@cluster0.swal4qj.mongodb.net/Golden_Study?retryWrites=true&w=majority&appName=Cluster0';
+const PORT = 8080;
+
+const bootstrap = async () => {
+    try {
+        await mongoose.connect(DB_URL).then(()=>console.log('Connected to MongoDB'))
+
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error(`Error connecting to MongoDB: ${error.message}`);
+        process.exit(1);
+    }
+};
 
 // Middleware для проверки роли
 app.use((req, res, next) => {
@@ -148,7 +160,4 @@ app.get('/api/users/:userId/workCount', async (req, res) => {
     }
 });
 
-const PORT = 8080;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+bootstrap();
