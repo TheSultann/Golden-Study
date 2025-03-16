@@ -11,7 +11,7 @@
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/users', { userName });
+            const response = await axios.post('/users', { userName });
 
             if (response.status === 201) {
                console.log('User created', response.data);

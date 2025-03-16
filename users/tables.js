@@ -23,15 +23,15 @@ document.addEventListener('DOMContentLoaded', function () {
  
     async function fetchStudents() {
         try {
-            const response = await axios.get('http://localhost:8080/api/users');
+            const response = await axios.get('/api/users');
             let students = response.data;
             tableBody.innerHTML = '';
             rowCounter = 1;
     
             // Получаем средние проценты и количество работ для каждого ученика
             students = await Promise.all(students.map(async (student) => {
-                const averageResponse = await axios.get(`http://localhost:8080/api/users/${student._id}/average`);
-                const workCountResponse = await axios.get(`http://localhost:8080/api/users/${student._id}/workCount`);
+                const averageResponse = await axios.get(`/api/users/${student._id}/average`);
+                const workCountResponse = await axios.get(`/api/users/${student._id}/workCount`);
                 return {
                     ...student,
                     averagePercentage: averageResponse.data.averagePercentage || 0,
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Функция для добавления нового ученика через сервер
     async function addNewStudentToServer(userName) {
         try {
-            const response = await axios.post('http://localhost:8080/users', {
+            const response = await axios.post('/users', {
                 userName: userName,
                 percentage: 0,
                 date: new Date()
