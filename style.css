@@ -9,7 +9,7 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  background-color: #f4f4f4;
+  background-color: #1A2526; /* Тёмно-синий фон */
   padding: 20px;
 }
 
@@ -17,10 +17,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f2f2f2;
+  background-color: #2C3E50; /* Тёмный контейнер */
   border-radius: 25px;
   padding: 10px 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Усиливаем тень для контраста */
   margin-bottom: 15px;
   width: 100%;
   max-width: 400px;
@@ -28,7 +28,7 @@ body {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease, color 0.3s ease;
-  color: #888;
+  color: #E8D5A3; /* Светло-золотистый текст */
   white-space: nowrap;
 }
 
@@ -36,22 +36,23 @@ body {
   padding: 5px;
   font-size: 20px;
   margin-left: 10px;
+  color: #D4AF37; /* Золотистая иконка */
 }
 
 .student-list-button:hover {
-  background-color: #e0e0e0;
-  color: #333;
+  background-color: #D4AF37; /* Золотистый фон при наведении */
+  color: #1A2526; /* Тёмный текст для контраста */
 }
 
 .student-list-button:hover i {
-  color: #333;
+  color: #1A2526; /* Тёмная иконка при наведении */
 }
 
 .container {
-  background-color: #f2f2f2;
+  background-color: #2C3E50; /* Тёмный контейнер */
   padding: 15px;
   border-radius: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 400px;
 }
@@ -64,30 +65,36 @@ body {
 
 .input-group input[type="text"] {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #4A5E6A; /* Серые границы */
   border-radius: 25px;
   flex: 1;
   margin-right: 5px;
   font-size: 16px;
+  background-color: #3A4B5C; /* Чуть светлее фон для поля ввода */
+  color: #E8D5A3; /* Светло-золотистый текст */
+}
+
+.input-group input[type="text"]::placeholder {
+  color: #A0AEC0; /* Серый цвет для placeholder */
 }
 
 .input-group button {
   padding: 10px 15px;
-  background-color: #f2f2f2;
-  color: #888;
+  background-color: #D4AF37; /* Золотистая кнопка */
+  color: #1A2526; /* Тёмный текст */
   border: none;
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   font-size: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   height: 40px;
   white-space: nowrap;
 }
 
 .input-group button:hover {
-  background-color: #e0e0e0;
-  color: #333;
+  background-color: #E8D5A3; /* Светлее золотистый при наведении */
+  color: #1A2526;
 }
 
 .statistic-button {
@@ -98,22 +105,22 @@ body {
   font-size: 16px;
   text-align: center;
   text-decoration: none;
-  background-color: #f2f2f2;
-  color: #888;
+  background-color: #2C3E50; /* Тёмный фон */
+  color: #E8D5A3; /* Светло-золотистый текст */
   border: none;
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   gap: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   margin-top: 15px;
   width: 100%;
   max-width: 400px;
 }
 
 .statistic-button:hover {
-  background-color: #e0e0e0;
-  color: #333;
+  background-color: #D4AF37; /* Золотистый при наведении */
+  color: #1A2526;
 }
 
 .searchbar input[type="text"],
@@ -202,14 +209,14 @@ body {
   .student-list-button:hover,
   .input-group button:hover,
   .statistic-button:hover {
-    background-color: #f2f2f2;
-    color: #888;
+    background-color: #2C3E50;
+    color: #E8D5A3;
   }
   
   .student-list-button:active,
   .input-group button:active,
   .statistic-button:active {
-    background-color: #e0e0e0;
-    color: #333;
+    background-color: #D4AF37;
+    color: #1A2526;
   }
 }

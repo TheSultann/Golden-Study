@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         dateCell.textContent = new Date(date).toLocaleDateString();
     }
 
-    // Функция для загрузки учеников с сервера
+
  
     async function fetchStudents() {
         try {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
             // Если нужно, можно добавить сообщение или индикацию для учеников с менее 3 работ (опционально)
             if (eligibleStudents.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="4">Нет учеников с достаточным количеством работ для рейтинга.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="4">There are no students with enough papers to be ranked.</td></tr>';
             }
         } catch (error) {
             console.error('Ошибка загрузки данных об учениках:', error);
@@ -77,5 +77,5 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addNewStudentToServer = addNewStudentToServer;
 
     fetchStudents();
-    setInterval(fetchStudents, 5000);
+    setInterval(fetchStudents, 30000);
 });
